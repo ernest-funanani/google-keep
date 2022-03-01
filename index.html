@@ -88,7 +88,7 @@
       </div>
       <div class="form-container inactive-form">
         <form>
-          <input class="note-text " type="text " placeholder="Take a note... " />
+          <input id="class="note-text " type="text " placeholder="Take a note... " />
           <div class="form-actions ">
             <div class="tooltip ">
               <span class="material-icons-outlined hover ">check_box</span>
@@ -106,10 +106,10 @@
         </form>
       </div>
 
-      <div class="form-container ">
+      <div class="form-container active-form">
         <form>
-          <input type="text " class="note-title " placeholder="Title " />
-          <input class="note-text " type="text " placeholder="Take a note... " />
+          <input id="note-title" type="text " class="note-title " placeholder="Title " />
+          <input id="note-text" class="note-text " type="text " placeholder="Take a note... " />
           <div class="form-actions ">
             <div class="icons ">
               <div class="tooltip ">
@@ -275,6 +275,7 @@
         </div>
       </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cuid/1.1.0/browser-cuid.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
