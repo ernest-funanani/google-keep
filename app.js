@@ -8,7 +8,7 @@ class Note {
 
 class App {
   constructor() {
-    this.notes = [];
+    this.notes = [new Note (1, "test title", "Test Text")];
 
     this.$activeForm = document.querySelector(".active-form");
     this.$inactiveForm = document.querySelector(".inactive-form");
@@ -18,6 +18,7 @@ class App {
     this.$form = document.querySelector("#form")
 
     this.addEventListeners();
+    this.displayNotes();
   }
 
   addEventListeners() {
@@ -86,7 +87,7 @@ class App {
   displayNotes() {
     this.$notes.innerHTML = this.notes.map((note) =>
       `
-      <div class="note" id ="${note.id}">
+      <div class="note" id ="${note.id}" onclick="alert('hi')">
       <span class="material-icons check-circle ">check_circle</span>
       <div class="title ">${note.title}</div>
       <div class="text ">${note.text}</div>
