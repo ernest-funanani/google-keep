@@ -9,6 +9,7 @@ class Note {
 class App {
   constructor() {
     this.notes = [new Note("abc1", "test title", "test text")];
+    this.selectedNoteId = "";
 
     this.$activeForm = document.querySelector(".active-form");
     this.$inactiveForm = document.querySelector(".inactive-form");
@@ -18,6 +19,8 @@ class App {
     this.$form = document.querySelector("#form");
     this.$modal = document.querySelector(".modal");
     this.$modalForm = document.querySelector("#modal-form");
+    this.$modalTitle = document.querySelector("#modal-title");
+    this.$modalText = document.querySelector("#modal-text");
 
     this.addEventListeners();
     this.displayNotes();
@@ -66,13 +69,18 @@ class App {
   }
 
   openModal(event) {
-    if (event.target.closest(".note")) {
+    const $selectedNote = event.target.closest(".note");
+    if ($selectedNote) {
+      this.selectedNoteId = $selectedNote.id;
+      this.$modalTitle.value = $selectedNote.children[1].innerHTML;
+      this.$modalText.value = $selectedNote.children[2].innerHTML;
       this.$modal.classList.add("open-modal");
     }
   }
   closeModal(event) {
     const isModalFormClickedOn = this.$modalForm.contains(event.target);
     if (!isModalFormClickedOn && this.$modal.classList.contains("open-modal")) {
+      this.editNote(this.selectedNoteId, {title: this.$modalTitle.value, text: this.$modalText.value})
       this.$modal.classList.remove("open-modal");
     }
   }
@@ -93,6 +101,7 @@ class App {
       }
       return note;
     });
+    this.displayNotes();
   }
 
   deleteNote(id) {
