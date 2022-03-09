@@ -170,16 +170,16 @@ input:focus {
 .active-form{
     display: none;
 }
-.active-form form {
+.form {
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: 10px;
 }
-.active-form form .form-actions .icons {
+.form .form-actions .icons {
   display: flex;
 }
-.active-form form .form-actions {
+.form .form-actions {
   display: flex;
   justify-content: space-between;
   width: 100%;
