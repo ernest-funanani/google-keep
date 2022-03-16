@@ -10,6 +10,7 @@ class App {
   constructor() {
     this.notes = [new Note("abc1", "test title", "test text")];
     this.selectedNoteId = "";
+    this.miniSidebar = true;
 
     this.$activeForm = document.querySelector(".active-form");
     this.$inactiveForm = document.querySelector(".inactive-form");
@@ -22,6 +23,8 @@ class App {
     this.$modalTitle = document.querySelector("#modal-title");
     this.$modalText = document.querySelector("#modal-text");
     this.$closeModalForm = document.querySelector("#modal-btn");
+    this.$sidebar = document.querySelector(".sidebar");
+    this.$sidebarActiveItem = document.querySelector(".active-item");
 
     this.addEventListeners();
     this.displayNotes();
@@ -46,6 +49,14 @@ class App {
     this.$modalForm.addEventListener("submit", (event) => {
       event.preventDefault();
     });
+
+    this.$sidebar.addEventListener("mouseover", (event) => {
+      this.hanleToggleSidebar();
+    })
+
+    this.$sidebar.addEventListener("mouseout", (event) => {
+      this.hanleToggleSidebar();
+    })
   }
 
   handleFormClick(event) {
@@ -149,6 +160,21 @@ class App {
     const $noteFooter = $note.querySelector(".note-footer");
     $checkNote.style.visibility = "hidden";
     $noteFooter.style.visibility = "hidden";
+  }
+
+  hanleToggleSidebar(){
+    if(this.miniSidebar){
+      this.$sidebar.style.width = "250px";
+      this.$sidebar.classList.add("sidebar-hover");
+      this.$sidebarActiveItem.classList.add("sidebar-active-item");
+      this.miniSidebar = false;
+    }
+    else{
+      this.$sidebar.style.width = "80px";
+      this.$sidebar.classList.remove("sidebar-hover");
+      this.$sidebarActiveItem.classList.remove("sidebar-active-item");
+      this.miniSidebar = true;
+    }
   }
 
   // onmouseover="app.handleMouseOverNote(this)" onmouseout="app.handleMouseOutNote(this)"
