@@ -8,6 +8,10 @@ class Note {
 
 class App {
   constructor() {
+    // localStorage.setItem('test', JSON.stringify(['123']));
+    // console.log(JSON.parse(localStorage.getItem('test')));
+    this.notes = JSON.parse(localStorage.getItem('notes')) || [];
+    console.log(this.notes)
     this.notes = [new Note("abc1", "test title", "test text")];
     this.selectedNoteId = "";
     this.miniSidebar = true;
@@ -51,12 +55,11 @@ class App {
     });
 
     this.$sidebar.addEventListener("mouseover", (event) => {
-      this.hanleToggleSidebar();
-    })
-
+      this.handleToggleSidebar();
+    });
     this.$sidebar.addEventListener("mouseout", (event) => {
-      this.hanleToggleSidebar();
-    })
+      this.handleToggleSidebar();
+    });
   }
 
   handleFormClick(event) {
@@ -127,7 +130,7 @@ class App {
     if (text != "") {
       const newNote = new Note(cuid(), title, text);
       this.notes = [...this.notes, newNote];
-      this.displayNotes();
+      this.render();
     }
   }
 
@@ -139,12 +142,12 @@ class App {
       }
       return note;
     });
-    this.displayNotes();
+    this.render();
   }
 
   deleteNote(id) {
     this.notes = this.notes.filter((note) => note.id != id);
-    this.displayNotes();
+    this.render();
   }
 
   handleMouseOverNote(element) {
@@ -162,72 +165,63 @@ class App {
     $noteFooter.style.visibility = "hidden";
   }
 
-  hanleToggleSidebar(){
-    if(this.miniSidebar){
+  handleToggleSidebar() {
+    if (this.miniSidebar) {
       this.$sidebar.style.width = "250px";
       this.$sidebar.classList.add("sidebar-hover");
       this.$sidebarActiveItem.classList.add("sidebar-active-item");
       this.miniSidebar = false;
-    }
-    else{
+    } else {
       this.$sidebar.style.width = "80px";
       this.$sidebar.classList.remove("sidebar-hover");
       this.$sidebarActiveItem.classList.remove("sidebar-active-item");
       this.miniSidebar = true;
     }
   }
-
-  // onmouseover="app.handleMouseOverNote(this)" onmouseout="app.handleMouseOutNote(this)"
-
+  saveNotes(){
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+  }
+  render(){
+    this.saveNotes();
+    this.displayNotes();
+  }
   displayNotes() {
     this.$notes.innerHTML = this.notes
       .map(
         (note) =>
           `
-        <div class="note" id="${note.id}">
+      <div class="note" id="${note.id}" onmouseover="app.handleMouseOverNote(this)" onmouseout="app.handleMouseOutNote(this)">
           <span class="material-icons check-circle">check_circle</span>
           <div class="title">${note.title}</div>
           <div class="text">${note.text}</div>
           <div class="note-footer">
-            <div class="tooltip">
-              <span class="material-icons-outlined hover small-icon"
-                >add_alert</span
-              >
-              <span class="tooltip-text">Remind me</span>
-            </div>
-            <div class="tooltip">
-              <span class="material-icons-outlined hover small-icon"
-                >person_add</span
-              >
-              <span class="tooltip-text">Collaborator</span>
-            </div>
-            <div class="tooltip">
-              <span class="material-icons-outlined hover small-icon"
-                >palette</span
-              >
-              <span class="tooltip-text">Change Color</span>
-            </div>
-            <div class="tooltip">
-              <span class="material-icons-outlined hover small-icon"
-                >image</span
-              >
-              <span class="tooltip-text">Add Image</span>
-            </div>
-            <div class="tooltip archive">
-              <span class="material-icons-outlined hover small-icon"
-                >archive</span
-              >
-              <span class="tooltip-text">Archive</span>
-            </div>
-            <div class="tooltip">
-              <span class="material-icons-outlined hover small-icon"
-                >more_vert</span
-              >
-              <span class="tooltip-text">More</span>
-            </div>
+              <div class="tooltip">
+                  <span class="material-icons-outlined hover small-icon">add_alert</span>
+                  <span class="tooltip-text">Remind me</span>
+              </div>
+              <div class="tooltip">
+                  <span class="material-icons-outlined hover small-icon">person_add</span>
+                  <span class="tooltip-text">Collaborator</span>
+              </div>
+              <div class="tooltip">
+                  <span class="material-icons-outlined hover small-icon">palette</span>
+                  <span class="tooltip-text">Change Color</span>
+              </div>
+              <div class="tooltip">
+                  <span class="material-icons-outlined hover small-icon">image</span>
+                  <span class="tooltip-text">Add Image</span>
+              </div>
+              <div class="tooltip archive">
+                  <span class="material-icons-outlined hover small-icon">archive</span>
+                  <span class="tooltip-text">Archive</span>
+              </div>
+              <div class="tooltip">
+                  <span class="material-icons-outlined hover small-icon">more_vert</span>
+                  <span class="tooltip-text">More</span>
+              </div>
           </div>
-        </div>
-    `
+      </div>
+      `
       )
       .join("");
   }
